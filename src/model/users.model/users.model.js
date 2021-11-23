@@ -7,7 +7,7 @@ const Users = (sequelize, DataTypes) => {
     const userModel = sequelize.define('users', {
         email: { type: DataTypes.STRING, allowNull: false, required: true },
         password: { type: DataTypes.STRING, allowNull: false, required: true },
-        role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull: false, defaultValue: 'client' },
+        role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull:true, defaultValue: 'client' },
         token: {
             type: DataTypes.VIRTUAL, get() {
                 return jwt.sign({ email: this.email }, SECRET);
@@ -29,9 +29,9 @@ const Users = (sequelize, DataTypes) => {
 
             },
         },
-        username: { type: DataTypes.STRING, unique: true, allowNull: false, required: false },
-        lastname: { type: DataTypes.STRING, allowNull: false, required: false },
-        phone: { type: DataTypes.STRING, allowNull: false, required: false }
+        username: { type: DataTypes.STRING, unique: true, allowNull: true, required: false },
+        lastname: { type: DataTypes.STRING, allowNull: true, required: false },
+        phone: { type: DataTypes.STRING, allowNull: true, required: false }
 
     });
 

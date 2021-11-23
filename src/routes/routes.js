@@ -23,11 +23,10 @@ authRouter.post("/signup", async (req,res,next) => {
 });
 
 authRouter.post("/sign-in",basicAuth, async (req,res,next) => {
-
-
-  res.status(200).json(user);
+  res.status(200).json(req.user);
 
 })
+
 // Home page should be replaced with the template that we have 
 authRouter.get('/', (req,res) => {
   res.send('Ohayō 🤗')

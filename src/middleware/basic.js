@@ -2,17 +2,17 @@
 
 const base64 = require('base-64');
 // here we have to create a model 
-const  {users}  = require('../model');
+const { Users } = require('../model/index');
 // valdaite the auth here 
-
 module.exports = async (req, res, next) => {
-    if (!req.headers.authorization) { return _authError(); }
-     let basic = req.headers.authorization.split(' ').pop();
-     let [user, pass] = base64.decode(basic).split(':');
-     usersCollection.basicAuth(user, pass).then(validUser => {
-        req.user = validUser;
-        next();
-      }).catch(err => { next('Invalid 1Login') })
-  
+  const encodedHeaders = req.headers.authorization.split(' ')[1];
+  const [username, password] = base64.decode(encodedHeaders).split(':');
+  console.log(username, password);
+
+  Users.BasicAuth(username, password).then(validUser => {
+    req.user = validUser;
+    next();
+  }).catch(err => { next('Invalid 1Login') })
+
 }
 
