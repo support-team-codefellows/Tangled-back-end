@@ -4,13 +4,15 @@ const server=express();
 const cors = require('cors');
 const logger = require('../src/middleware/logger'); 
 const errorHnadlers = require('../src/errors/500')
+const telephoneSolution=require('../src/events/Telephone')
 const notFound = require('../src/errors/404')
 require('dotenv').config();
 const PORT=process.env.PORT||3000;
 server.use(express.json());
 server.use(cors())
 //route 
-server.use(authRoutes);
+// server.use(authRoutes);
+// server.use(telephoneSolution)
 //middelware
 server.use(logger);
 // error handlers
