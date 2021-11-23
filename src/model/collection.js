@@ -31,7 +31,7 @@ class Collection {
         try {
             return this.model.destroy({ where: { id } })
         } catch (error) {
-            console.log(`${error.mesagesage}`);
+            console.log(`${error.message}`);
         }
     }
 
