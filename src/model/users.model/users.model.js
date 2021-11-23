@@ -7,7 +7,7 @@ const Users = (sequelize, DataTypes) => {
     const userModel = sequelize.define('users', {
         email: { type: DataTypes.STRING, allowNull: false, required: true },
         password: { type: DataTypes.STRING, allowNull: false, required: true },
-        role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull: false, defaultvalue: 'client' },
+        role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull: false, defaultValue: 'client' },
         token: {
             type: DataTypes.VIRTUAL, get() {
                 return jwt.sign({ email: this.email }, SECRET);
