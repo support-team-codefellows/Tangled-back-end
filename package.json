@@ -1,0 +1,43 @@
+{
+  "name": "tangled-front-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "init:config": "sequelize init:config",
+    "db:create": "sequelize db:create",
+    "watch": "nodemon index.js",
+    "test": "NODE_ENV=test jest",
+    "dev": "NODE_ENV=development nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/support-team-codefellows/Tangled-front-end.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/support-team-codefellows/Tangled-front-end/issues"
+  },
+  "homepage": "https://github.com/support-team-codefellows/Tangled-front-end#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jest": "^27.3.1",
+    "base-64": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.1",
+    "sequelize": "^6.12.0-alpha.1",
+    "sequelize-cli": "^6.3.0",
+    "socket.io": "^4.4.0",
+    "socket.io-client": "^4.4.0",
+    "sqlite3": "^5.0.2",
+    "superagent": "^6.1.0",
+    "supertest": "^6.1.6"
+  }
+}
