@@ -2,20 +2,13 @@
 
 const express = require('express');
 const authRouter=express.Router();
-const {usersCollection}=require('../model/index');
+const { users }=require('../model/index');
 const basicAuth = require('../middleware/basic');
 const bearerAuth =  require('../middleware/bearer');
-
+const notFound =  require('../errors/404');
+// Routes
 authRouter.post("/signup", async (req,res,next) => {
-    
-    try {
-        const output = {
-
-        }
-        res.status(201).json(output);
-    } catch (error) {
-        next(error.message)
-    }
+   console.log(users);
 
 });
 
@@ -27,7 +20,14 @@ authRouter.post("/signin",basicAuth, async (req,res,next) => {
   ]
   res.status(201).json(user);
 })
+// Home page should be replaced with the template that we have 
+authRouter.get('/', (req,res) => {
+  res.send('Ohayō 🤗')
+})
 
+// authRouter.get('*',notFound );
+
+module.exports = authRouter
 
 
 

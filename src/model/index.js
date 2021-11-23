@@ -23,7 +23,8 @@ let sequelizeOptions = process.env.NODE_ENV === 'production' ? {
     
     module.exports ={
         db: sequelize,
-        usersCollection:usersCollection
+        usersCollection:usersCollection,
+        Users: Users(sequelize,DataTypes)
 
     }
 
