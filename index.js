@@ -10,6 +10,6 @@ db.sync().then(()=>{
 server.start();
 
 
-}).catch(consle.error())
+}).catch(console.error())
 
 

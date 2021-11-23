@@ -1,7 +1,7 @@
 'use strict'
-const {Sequelize,DataTypes}=require('sequelize')
-const Users=require('./users.model')
-const Collection=require('./collection')
+const {Sequelize,DataTypes}=require('sequelize');
+const Users=require('./users.model/users.model');
+const Collection=require('./collection');
 
 const POSTGRES_URL= process.env.NODE_ENV ==='test'? "sqlite:memory:" : process.env.DATABASE_URL
 
