@@ -1,10 +1,10 @@
 'use strict';
-const bycrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET || 'secret';
 
 const Users = (sequelize, DataTypes) => {
-    const usersmodel = sequelize.define('users', {
+    const userModel = sequelize.define('users', {
         email: { type: DataTypes.STRING, allowNull: false, required: true },
         password: { type: DataTypes.STRING, allowNull: false, required: true },
         role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull: false, defaultvalue: 'client' },
@@ -17,7 +17,7 @@ const Users = (sequelize, DataTypes) => {
                 return token;
             }
         },
-        capabilties: {
+        capabilities: {
             type: DataTypes.VIRTUAL,
             get() {
                 const acl = {
@@ -36,34 +36,30 @@ const Users = (sequelize, DataTypes) => {
     });
 
 
-        usersmodel.beforCreate(async (user) => {
-        let hash = await bycrypt.hash(user.password, 10);
-        user.password = hash;})
-
-        usersmodel.basicAuth(async (user, password) => {
-       const userObj = await usersmodel.findOne({ where: { email: user } });
-       const valid = await bycrypt.compare(password, userObj.password);
-       if (valid) {
-           return userObj;
-       }
-       throw new Error('Invalid credentials');
-       
-    });
+    userModel.beforeCreate(async (user) => {
+        let hashedPass = await bcrypt.hash(user.password, 10);
+        user.password = hashedPass;
+      });
+      userModel.BasicAuth = async function (username, password) {
+        const user = await this.findOne({ where: { username } });
+        const valid = await bcrypt.compare(password, user.password);
+        if (valid) { return user; }
+        throw new Error('Invalid User');
+      };
+        
     
-    usersmodel.authToken(async (token) => {
-   try{
-  const decoded = jwt.verify(token, SECRET);
-  const user = await usersmodel.findOne({ where: { email: decoded.email } });
-    return user;
+      userModel.authToken = async function (token) {
+        try {
+          const parsedToken = jwt.verify(token, SECRET);
+          const user = this.findOne({where: { username: parsedToken.username } });
+          if (user) { return user; }
+          throw new Error("User Not Found");
+        } catch (e) {
+          throw new Error(e.message)
+        }
+      };
 
-    }catch(err){
-        throw new Error('Invalid token');
-    }   
-
-    });
-
-
-return usersmodel;
+return userModel;
 
    }
 

@@ -3,23 +3,24 @@ const express = require('express');
 const server=express();
 const cors = require('cors');
 const logger = require('../src/middleware/logger'); 
-const errorHnadlers = require('../src/errors/500')
-const notFound = require('../src/errors/404')
+const errorHandlers = require('../src/errors/500');
+const notFound = require('../src/errors/404');
+const authRoutes = express.Router()
 require('dotenv').config();
 const PORT=process.env.PORT||3000;
 server.use(express.json());
 server.use(cors())
 //route 
 server.use(authRoutes);
-//middelware
+//middleware
 server.use(logger);
 // error handlers
 server.use(notFound);
-server.use(errorHnadlers);
+server.use(errorHandlers);
 
 function start(){
     server.listen(PORT,()=>{
-        console.log(`Listning to this ${PORT}`);
+        console.log(`listening  to this ${PORT}`);
     })
 
 
