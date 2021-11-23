@@ -1,0 +1,23 @@
+{
+    "development": {
+        "username": "marwan",
+        "password": "root",
+        "database": "midproject",
+        "host": "127.0.0.1",
+        "dialect": "postgres"
+    },
+    "test": {
+        "username": "marwan",
+        "password": "root",
+        "database": "midproject",
+        "host": "127.0.0.1",
+        "dialect": "sqlite:memory:"
+    },
+    "production": {
+        "username": "marwan",
+        "password": "root",
+        "database": "midproject",
+        "host": "127.0.0.1",
+        "dialect": "postgres"
+    }
+}
