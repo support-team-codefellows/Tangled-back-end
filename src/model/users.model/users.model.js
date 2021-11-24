@@ -1,4 +1,5 @@
 'use strict';
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET || 'secret';
