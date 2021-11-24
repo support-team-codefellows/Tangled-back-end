@@ -47,7 +47,6 @@ const Users = (sequelize, DataTypes) => {
         throw new Error('Invalid User');
       };
         
-    
       userModel.authToken = async function (token) {
         try {
           const parsedToken = jwt.verify(token, SECRET);
