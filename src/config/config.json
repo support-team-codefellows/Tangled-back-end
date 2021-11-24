@@ -9,7 +9,7 @@
     "test": {
         "username": "marwan",
         "password": "root",
-        "database": "project",
+        "database": "",
         "host": "127.0.0.1",
         "dialect": "sqlite:memory:"
     },

@@ -4,13 +4,13 @@ const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET || 'secret';
 
 const Users = (sequelize, DataTypes) => {
-    const userModel = sequelize.define('users', {
-        email: { type: DataTypes.STRING, allowNull: false, required: true },
+   const userModel = sequelize.define('users', {
+        username: { type: DataTypes.STRING, unique: true, allowNull: false, required: true },
         password: { type: DataTypes.STRING, allowNull: false, required: true },
         role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull:true, defaultValue: 'client' },
         token: {
             type: DataTypes.VIRTUAL, get() {
-                return jwt.sign({ email: this.email }, SECRET);
+                return jwt.sign({ username: this.username }, SECRET);
             },
             set(tokenObj) {
                 let token = jwt.sign(tokenObj, SECRET);
@@ -29,9 +29,9 @@ const Users = (sequelize, DataTypes) => {
 
             },
         },
-        username: { type: DataTypes.STRING, unique: true, allowNull: true, required: false },
-        lastname: { type: DataTypes.STRING, allowNull: true, required: false },
-        phone: { type: DataTypes.STRING, allowNull: true, required: false }
+       
+        //  lastname: { type: DataTypes.STRING, allowNull: true, required: false },
+        //  phone: { type: DataTypes.STRING, allowNull: true, required: false }
 
     });
 
