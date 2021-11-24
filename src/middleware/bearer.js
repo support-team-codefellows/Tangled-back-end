@@ -1,22 +1,24 @@
-'use strict';
-//  get the user model 
- const { usersCollection } = require('../model/index')
+const  users  = require('../model/index.js');
 
 module.exports = async (req, res, next) => {
 
   try {
-if (!req.headers.authorization) {authError();}
-const token = req.headers.authorization.split(' ').pop();
-const validUser=await usersCollection.authToken(token);
-req.user = validUser;
-req.token = validUser.token;
-  
-     next();
 
-  } 
-  
-  catch (e) {
-    next('Invalid login');
+    if (!req.headers.authorization) { _authError() }
+
+    const token = req.headers.authorization.split(' ').pop();
+    const validUser = await users.Users.authToken(token);
+    req.user = validUser;
+    req.token = validUser.token;
+    next();
+
+  } catch (e) {
+    _authError();
   }
 
+
+  function _authError() {
+    next('Invalid  Login why ',);
+
   }
+}
