@@ -1,11 +1,6 @@
 'use strict'
-const server=require('../../server')
 
-// const {start}=require('../../server')
-
-const io=require('socket.io')(server.start)
-const telephoneRouter=require('../Telephone/Telephone')
-// app.set('socketio', io);
+const io =require('socket.io')(3500)
 
 
 const system=io.of('/system')
@@ -25,6 +20,7 @@ system.on('connection', (socket)=>{
     console.log(`${socket.id} connected to the system `);
 
 socket.on('customerFrontEvent',(service)=>{
+    console.log(service);
 
 
 
@@ -69,10 +65,7 @@ const id= uuid()
 })
 
 
-
+// ff.listen(3000);
 module.exports={
     system,
-    telephoneRouter
-
-
 }

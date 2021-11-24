@@ -16,6 +16,6 @@ setInterval(() => {
      }
      customerConnection.emit('customerFrontEvent',obj)
     
-},3000)
+},1000)
 
 

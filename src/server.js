@@ -9,12 +9,13 @@ const logger = require('../src/middleware/logger');
 const errorHandlers = require('../src/errors/500');
 const notFound = require('../src/errors/404');
 const errorHnadlers = require('../src/errors/500')
-require('../src/events/system/system')
+// require('../src/events/system/system')
 
-const telephoneRouter=require('./events/Telephone/Telephone')
+// const telephoneRouter=require('./events/Telephone/Telephone')
 // const notFound = require('../src/errors/404')
 require('dotenv').config();
 const PORT=process.env.PORT||3000;
+
 server.use(logger);
 server.use(cors());
 server.use(morgan('dev'));
@@ -23,7 +24,7 @@ server.use(express.urlencoded({ extended: true }));
 //route 
 server.use(authRoutes);
 // server.use(system);
-server.use(telephoneRouter)
+// server.use(telephoneRouter)
 // server.use(telephoneSolution)
 //middelware
 // error handlers
@@ -35,7 +36,20 @@ function start(){
         console.log(`listening  to this :🤣 ${PORT}`);
     })
 }
+
+
+
+
+
+
+///////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+
+
+
+
 module.exports={
     server:server,
-    start:start
+    start
 }
