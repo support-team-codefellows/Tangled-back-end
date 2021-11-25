@@ -1,7 +1,7 @@
+'use strict';
 
-const socket =require('socket.io-client')
-
-const host=`http://localhost:3500/system`;
+const socket = require('socket.io-client')
+const host=`http://localhost:3000/`;
 
 const customerConnection=socket.connect(host)
 
@@ -10,12 +10,7 @@ setInterval(() => {
         customerName: "haroun",
       department: 'Telephone',
         problemDescription: 'Telephone',
- 
- 
- 
      }
      customerConnection.emit('customerFrontEvent',obj)
     
-},1000)
-
-
+},1000);
