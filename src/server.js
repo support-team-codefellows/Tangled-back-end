@@ -18,6 +18,8 @@ server.use(cors());
 server.use(morgan("dev"));
 server.use(express.json());
 
+
+
 server.use(express.urlencoded({ extended: true }));
 //route
 server.use(authRoutes);
@@ -31,9 +33,25 @@ server.use(notFound);
 server.use(errorHandlers);
 
 // >>>> configuring socket.io
+const { Server } = require("socket.io"); 
 const httpServer = require("http").createServer(server);
-const io = require("socket.io")(httpServer);
-const mainIo = io.of('/mainIo')
+const io = new Server(httpServer, {
+    cors: {
+      origins: ["*"],
+    handlePreflightRequest: (req,res) => {
+      res.wirteHead(200,{
+        "Access-control-Allow-Origin": "*",
+        "Access-control-Allow-Methods": "GET,POST",
+        "Access-control-Allow-Headers": "my-custom-header",
+        "Access-control-Allow-Credentials": true,
+  
+      });
+      res.end()
+    }
+    }
+  });
+
+// const mainIo = io.of('/mainIo')
 
 let serviceQueue = {
     liveChate: {},
@@ -42,7 +60,7 @@ let serviceQueue = {
 }
 
 
-mainIo.on("connection", (socket) => {
+io.on("connection", (socket) => {
     console.log(`>>> socket ${socket.id} connected`);
 
     socket.on("customerFrontEvent", (service) => {
@@ -56,7 +74,7 @@ mainIo.on("connection", (socket) => {
 
         if (service.department === "Telephone") {
             serviceQueue.telephone[id] = obj;
-            mainIo.emit("telephoneIssue", {
+            io.emit("telephoneIssue", {
                 id: id,
                 obj: obj,
             }
@@ -64,7 +82,7 @@ mainIo.on("connection", (socket) => {
         }
         if(service.department === "OnSite") {
             serviceQueue.onSite[id] = obj;
-            mainIo.emit("onSiteIssue", {
+            io.emit("onSiteIssue", {
                 id: id,
                 obj: obj,
             });
@@ -80,7 +98,7 @@ mainIo.on("connection", (socket) => {
     });
 
     socket.on('onSiteResponse', (appointment) => {
-        mainIo.emit('serverOnSiteResponse', appointment);
+        io.emit('serverOnSiteResponse', appointment);
     });
 
     socket.on('getAll', (payload) => {
@@ -101,6 +119,16 @@ mainIo.on("connection", (socket) => {
             });
         }
     });
+
+    socket.on('deleteAll', (payload) => {
+        if (payload === "Telephone") {
+            serviceQueue.telephone = {};
+            console.log(serviceQueue.telephone);
+            console.log('cleared!');
+        } else if (payload === "OnSite") {
+            serviceQueue.onSite = {};
+        }
+    })
 
     socket.on('telephoneDeleteCase', (payload) => {
         delete serviceQueue.telephone[payload.id];
