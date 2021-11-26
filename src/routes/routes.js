@@ -9,14 +9,16 @@ const permissions = require('../middleware/acl.js')
 const notFound =  require('../errors/404');
 // Routes
 authRouter.post("/signup", async (req,res,next) => {
-    console.log(users);
+    console.log(req.body);
+    
     try {
       let userRecord = await users.Users.create(req.body);
       const output = {
         user: userRecord,
         token: userRecord.token
       };
-        res.status(201).json(output);
+        res.status(201).json(output).send(output);
+
     } catch (error) {
         next(error.message)
     }

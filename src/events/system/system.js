@@ -1,7 +1,12 @@
 'use strict'
 
-const io =require('socket.io')(3500)
-
+const http = require("http");
+const port = process.env.PORT || 3000;
+const bodyParser = require('body-parser');
+const { Server } = require("socket.io"); 
+const app = express();
+const cors = require("cors");
+app.use(cors());
 
 const system=io.of('/system')
 const uuid=require('uuid').v4

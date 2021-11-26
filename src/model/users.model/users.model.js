@@ -8,6 +8,7 @@ const Users = (sequelize, DataTypes) => {
    const userModel = sequelize.define('users', {
         username: { type: DataTypes.STRING, unique: true, allowNull: false, required: true },
         password: { type: DataTypes.STRING, allowNull: false, required: true },
+        lastname: { type: DataTypes.STRING, allowNull: false, required: false },
         role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull:true, defaultValue: 'client' },
         token: {
             type: DataTypes.VIRTUAL, get() {
@@ -31,7 +32,7 @@ const Users = (sequelize, DataTypes) => {
             },
         },
        
-        //  lastname: { type: DataTypes.STRING, allowNull: true, required: false },
+         
         //  phone: { type: DataTypes.STRING, allowNull: true, required: false }
 
     });
