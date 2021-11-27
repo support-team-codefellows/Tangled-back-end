@@ -34,8 +34,7 @@ server.use(authRoutes);
 
 //middelware
 // error handlers
-server.use(notFound);
-server.use(errorHandlers);
+
 
 // >>>> configuring socket.io
 const httpServer = require("http").createServer(server);
@@ -159,6 +158,8 @@ io.on("connection", (socket) => {
 
 });
 
+server.use(notFound);
+server.use(errorHandlers);
 
 // >>>>>
 
