@@ -123,14 +123,14 @@ io.on("connection", (socket) => {
             Object.keys(serviceQueue.telephone).forEach((id) => {
                 socket.emit("telephoneIssue", {
                     id: id,
-                    payload: serviceQueue.telephone[id],
+                    obj: serviceQueue.telephone[id],
                 });
             });
         } else if (payload === "OnSite") {
             Object.keys(serviceQueue.onSite).forEach((id) => {
                 socket.emit("onSiteIssue", {
                     id: id,
-                    payload: serviceQueue.onSite[id],
+                    obj: serviceQueue.onSite[id],
                 });
             });
         }
