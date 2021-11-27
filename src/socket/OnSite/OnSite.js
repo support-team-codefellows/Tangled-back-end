@@ -1,7 +1,7 @@
 'use strict';
 
 const socket=require("socket.io-client")
-const host=`http://localhost:3000/mainIo`;
+const host=`http://localhost:3000/`;
 const socketConnection=socket.connect(host)
 
 socketConnection.emit('getAll', 'OnSite');

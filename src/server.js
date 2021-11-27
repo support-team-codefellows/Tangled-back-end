@@ -10,20 +10,27 @@ const errorHandlers = require("../src/errors/500");
 const notFound = require("../src/errors/404");
 const errorHnadlers = require("../src/errors/500");
 // const notFound = require('../src/errors/404')
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3500;
 const uuid = require('uuid').v4
 
-server.use(logger);
-server.use(cors());
+
+// server.use(cors());
+server.use(cors({origin: 'http://localhost:3500'}));
 server.use(morgan("dev"));
 server.use(express.json());
 
-server.use(express.urlencoded({ extended: true }));
+
+
+// const server = http.createServer(app);
+
+
+
+
+
+
+// server.use(express.urlencoded({ extended: true }));
 //route
 server.use(authRoutes);
-
-server.setMaxListeners(20)
-
 
 //middelware
 // error handlers
@@ -32,17 +39,44 @@ server.use(errorHandlers);
 
 // >>>> configuring socket.io
 const httpServer = require("http").createServer(server);
-const io = require("socket.io")(httpServer);
-const mainIo = io.of('/mainIo')
+const bodyParser = require('body-parser');
+server.use(cors());
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+
+
+
+// const io = require("socket.io")(httpServer);
+
+const { Server } = require("socket.io"); 
+server.use(logger);
+const io = new Server(httpServer, {
+    cors: {
+        origins: ["*"],
+        handlePreflightRequest: (req,res) => {
+          res.wirteHead(200,{
+            "Origin": "*",
+            "Methods": "GET,POST",
+            "Headers": "my-custom-header",
+            "Credentials": true,
+            // "credentials": true
+      
+          });
+          res.end()
+        }
+        }
+      });
 
 let serviceQueue = {
     liveChate: {},
-    telephone: { id: 'service' },
+    telephone: {},
     onSite: {}
 }
 
 
-mainIo.on("connection", (socket) => {
+io.on("connection", (socket) => {
+
+    
     console.log(`>>> socket ${socket.id} connected`);
 
     socket.on("customerFrontEvent", (service) => {
@@ -56,7 +90,7 @@ mainIo.on("connection", (socket) => {
 
         if (service.department === "Telephone") {
             serviceQueue.telephone[id] = obj;
-            mainIo.emit("telephoneIssue", {
+            io.emit("telephoneIssue", {
                 id: id,
                 obj: obj,
             }
@@ -64,7 +98,7 @@ mainIo.on("connection", (socket) => {
         }
         if(service.department === "OnSite") {
             serviceQueue.onSite[id] = obj;
-            mainIo.emit("onSiteIssue", {
+            io.emit("onSiteIssue", {
                 id: id,
                 obj: obj,
             });
@@ -80,7 +114,7 @@ mainIo.on("connection", (socket) => {
     });
 
     socket.on('onSiteResponse', (appointment) => {
-        mainIo.emit('serverOnSiteResponse', appointment);
+        io.emit('serverOnSiteResponse', appointment);
     });
 
     socket.on('getAll', (payload) => {
@@ -111,6 +145,17 @@ mainIo.on("connection", (socket) => {
         delete serviceQueue.onSite[payload.id];
         console.log('Deleted a req');
     });
+    
+
+    socket.on('deleteAll', (payload) => {
+        if (payload === "Telephone") {
+            serviceQueue.telephone = {};
+            console.log(serviceQueue.telephone);
+            console.log('cleared!');
+        } else if (payload === "OnSite") {
+            serviceQueue.onSite = {};
+        }
+    })
 
 });
 
