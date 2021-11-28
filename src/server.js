@@ -8,8 +8,6 @@ const authRoutes = require("./routes/routes");
 const logger = require("../src/middleware/logger");
 const errorHandlers = require("../src/errors/500");
 const notFound = require("../src/errors/404");
-const errorHnadlers = require("../src/errors/500");
-// const notFound = require('../src/errors/404')
 const PORT = process.env.PORT || 3500;
 const uuid = require('uuid').v4;
 
@@ -57,6 +55,8 @@ let serviceQueue = {
 }
 
 io.on("connection", (socket) => {
+
+
     console.log(`>>> socket ${socket.id} connected`);
     socket.on("customerFrontEvent", (service) => {
         console.log('========', service);
@@ -80,12 +80,6 @@ io.on("connection", (socket) => {
                 obj: obj,
             });
         }
-        // if (condition) {
-
-        // }
-        // else{
-        //     socket.emit('systemReject',service)
-        // }
     });
 
     socket.on('onSiteResponse', (appointment) => {
@@ -137,8 +131,33 @@ io.on("connection", (socket) => {
         payload.obj.service.status = 'processing'
         socket.emit(payload);
     });
+//chat
+    socket.on('joinRoom', (payload) => {
+        console.log(payload);
+      socket.join(payload)
+      console.log('A NEW USER HAS JOINED',payload);
+    }
+    );
+    
+
+    socket.on("sendMessage", (payload) => {
+        socket.broadcast.to(payload.room).emit("receiveMessage", payload);   
+      });
+   
+socket.on('disconnect', () => {
+    console.log('>>> socket disconnected');
 
 });
+});
+
+
+
+
+
+
+
+
+
 
 // >>>>>
 server.use(notFound);
