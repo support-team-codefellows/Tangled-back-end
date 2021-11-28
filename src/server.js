@@ -11,30 +11,20 @@ const notFound = require("../src/errors/404");
 const errorHnadlers = require("../src/errors/500");
 // const notFound = require('../src/errors/404')
 const PORT = process.env.PORT || 3500;
-const uuid = require('uuid').v4
-
+const uuid = require('uuid').v4;
 
 // server.use(cors());
-server.use(cors({origin: 'http://localhost:3500'}));
+server.use(cors({ origin: 'http://localhost:3500' }));
 server.use(morgan("dev"));
 server.use(express.json());
 
-
-
 // const server = http.createServer(app);
-
-
-
-
-
-
 // server.use(express.urlencoded({ extended: true }));
 //route
 server.use(authRoutes);
 
 //middelware
 // error handlers
-
 
 // >>>> configuring socket.io
 const httpServer = require("http").createServer(server);
@@ -43,28 +33,22 @@ server.use(cors());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
-
-
-// const io = require("socket.io")(httpServer);
-
-const { Server } = require("socket.io"); 
+const { Server } = require("socket.io");
 server.use(logger);
 const io = new Server(httpServer, {
     cors: {
         origins: ["*"],
-        handlePreflightRequest: (req,res) => {
-          res.wirteHead(200,{
-            "Origin": "*",
-            "Methods": "GET,POST",
-            "Headers": "my-custom-header",
-            "Credentials": true,
-            // "credentials": true
-      
-          });
-          res.end()
+        handlePreflightRequest: (req, res) => {
+            res.wirteHead(200, {
+                "Origin": "*",
+                "Methods": "GET,POST",
+                "Headers": "my-custom-header",
+                "Credentials": true
+            });
+            res.end()
         }
-        }
-      });
+    }
+});
 
 let serviceQueue = {
     liveChate: {},
@@ -72,21 +56,15 @@ let serviceQueue = {
     onSite: {}
 }
 
-
 io.on("connection", (socket) => {
-
-    
     console.log(`>>> socket ${socket.id} connected`);
-
     socket.on("customerFrontEvent", (service) => {
         console.log('========', service);
-
         let obj = {
             time: new Date(),
             service: service,
         };
         const id = uuid();
-
         if (service.department === "Telephone") {
             serviceQueue.telephone[id] = obj;
             io.emit("telephoneIssue", {
@@ -95,7 +73,7 @@ io.on("connection", (socket) => {
             }
             );
         }
-        if(service.department === "OnSite") {
+        if (service.department === "OnSite") {
             serviceQueue.onSite[id] = obj;
             io.emit("onSiteIssue", {
                 id: id,
@@ -108,8 +86,6 @@ io.on("connection", (socket) => {
         // else{
         //     socket.emit('systemReject',service)
         // }
-
-
     });
 
     socket.on('onSiteResponse', (appointment) => {
@@ -138,30 +114,35 @@ io.on("connection", (socket) => {
     socket.on('telephoneDeleteCase', (payload) => {
         delete serviceQueue.telephone[payload.id];
         console.log('Deleted a req');
+        payload.obj.service.status = 'processed';
+        socket.emit('processedTelephone', payload);
     });
 
     socket.on('onSiteDeleteCase', (payload) => {
         delete serviceQueue.onSite[payload.id];
         console.log('Deleted a req');
+        payload.obj.service.status = 'processed';
+        socket.emit('processedOnSite', payload);
     });
-    
 
     socket.on('deleteAll', (payload) => {
         if (payload === "Telephone") {
             serviceQueue.telephone = {};
-            console.log(serviceQueue.telephone);
-            console.log('cleared!');
         } else if (payload === "OnSite") {
             serviceQueue.onSite = {};
         }
-    })
+    });
+
+    socket.on('claimCase', (payload) => {
+        payload.obj.service.status = 'processing'
+        socket.emit(payload);
+    });
 
 });
 
+// >>>>>
 server.use(notFound);
 server.use(errorHandlers);
-
-// >>>>>
 
 function start() {
     httpServer.listen(PORT, () => {
