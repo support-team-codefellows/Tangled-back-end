@@ -135,7 +135,7 @@ io.on("connection", (socket) => {
 
     socket.on('claimCase', (payload) => {
         payload.obj.service.status = 'processing'
-        socket.emit(payload);
+        socket.emit('processingStatus',payload);
     });
 
 });
