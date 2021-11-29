@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3500;
 const uuid = require('uuid').v4;
 
 // server.use(cors());
-server.use(cors({ origin: 'http://localhost:3500' }));
+server.use(cors({ origin: '*' }));
 server.use(morgan("dev"));
 server.use(express.json());
 
