@@ -1,10 +1,10 @@
 "use strict";
 
 const express = require('express');
-const authRouter=express.Router();
-const  users =require('../model/index');
+const authRouter = express.Router();
+const users = require('../model/index');
 const basicAuth = require('../middleware/basic');
-const bearerAuth =  require('../middleware/bearer');
+const bearerAuth = require('../middleware/bearer');
 const permissions = require('../middleware/acl.js')
 const notFound =  require('../errors/404');
 
@@ -27,7 +27,7 @@ authRouter.post("/signup", async (req,res,next) => {
 
 });
 
-authRouter.post("/sign-in",basicAuth, async (req,res,next) => {
+authRouter.post("/sign-in", basicAuth, async (req, res, next) => {
   res.status(200).json(req.user);
 
 })
@@ -38,7 +38,7 @@ authRouter.get('/users', bearerAuth, permissions('delete'), async (req, res, nex
 });
 
 // Home page should be replaced with the template that we have 
-authRouter.get('/', (req,res) => {
+authRouter.get('/', (req, res) => {
   res.send('Ohayō 🤗')
 })
 

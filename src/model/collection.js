@@ -7,7 +7,7 @@ class Collection {
         try {
             return await this.model.create(obj)
         } catch (error) {
-         console.log(`error.message${error.message}`);
+            console.log(`error.message${error.message}`);
         }
     }
     get(id) {
