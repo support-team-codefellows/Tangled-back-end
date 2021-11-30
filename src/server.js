@@ -11,8 +11,8 @@ const notFound = require("../src/errors/404");
 const PORT = process.env.PORT || 3500;
 const uuid = require('uuid').v4;
 
-// server.use(cors());
-// server.use(cors({ origin: '*' }));
+ server.use(cors());
+ server.use(cors({ origin: '*' }));
 server.use(morgan("dev"));
 server.use(express.json());
 
@@ -33,21 +33,21 @@ const bodyParser = require('body-parser');
 
 const { Server } = require("socket.io");
 // server.use(logger);
-const io = new Server(httpServer);
-// , {
-//     cors: {
-//         origins: ["*"],
-//         handlePreflightRequest: (req, res) => {
-//             res.wirteHead(200, {
-//                 "Origin": "*",
-//                 "Methods": "GET,POST",
-//                 "Headers": "my-custom-header",
-//                 "Credentials": true
-//             });
-//             res.end()
-//         }
-//     }
-// }
+const io = new Server(httpServer, {
+    cors: {
+        origins: ["*"],
+        handlePreflightRequest: (req, res) => {
+            res.writeHead(200, {
+                "Origin": "*",
+                "Methods": "GET,POST",
+                "Headers": "my-custom-header",
+                "Credentials": true
+            });
+            res.end()
+        }
+    }
+}
+);
 let serviceQueue = {
     liveChate: {},
     telephone: {},
