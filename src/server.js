@@ -12,13 +12,15 @@ const PORT = process.env.PORT || 3500;
 const uuid = require('uuid').v4;
 
 
+
 // server.use(cors());
 server.use(cors({ origin: '*' }));
+
 server.use(morgan("dev"));
 server.use(express.json());
 
 // const server = http.createServer(app);
-// server.use(express.urlencoded({ extended: true }));
+server.use(express.urlencoded({ extended: true }));
 //route
 server.use(authRoutes);
 
@@ -28,17 +30,17 @@ server.use(authRoutes);
 // >>>> configuring socket.io
 const httpServer = require("http").createServer(server);
 const bodyParser = require('body-parser');
-server.use(cors());
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
+// server.use(cors());
+// server.use(bodyParser.json());
+// server.use(bodyParser.urlencoded({ extended: true }));
 
 const { Server } = require("socket.io");
-server.use(logger);
+// server.use(logger);
 const io = new Server(httpServer, {
     cors: {
         origins: ["*"],
         handlePreflightRequest: (req, res) => {
-            res.wirteHead(200, {
+            res.writeHead(200, {
                 "Origin": "*",
                 "Methods": "GET,POST",
                 "Headers": "my-custom-header",
@@ -47,8 +49,8 @@ const io = new Server(httpServer, {
             res.end()
         }
     }
-});
-
+}
+);
 let serviceQueue = {
     liveChate: {},
     telephone: {},
