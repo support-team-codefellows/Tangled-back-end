@@ -17,7 +17,7 @@ server.use(morgan("dev"));
 server.use(express.json());
 
 // const server = http.createServer(app);
-// server.use(express.urlencoded({ extended: true }));
+server.use(express.urlencoded({ extended: true }));
 //route
 server.use(authRoutes);
 
@@ -28,11 +28,11 @@ server.use(authRoutes);
 const httpServer = require("http").createServer(server);
 const bodyParser = require('body-parser');
 // server.use(cors());
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: true }));
+// server.use(bodyParser.json());
+// server.use(bodyParser.urlencoded({ extended: true }));
 
 const { Server } = require("socket.io");
-server.use(logger);
+// server.use(logger);
 const io = new Server(httpServer);
 // , {
 //     cors: {
