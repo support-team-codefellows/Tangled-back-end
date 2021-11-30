@@ -27,7 +27,7 @@ server.use(authRoutes);
 // >>>> configuring socket.io
 const httpServer = require("http").createServer(server);
 const bodyParser = require('body-parser');
-server.use(cors());
+// server.use(cors());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 
