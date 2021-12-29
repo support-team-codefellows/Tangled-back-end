@@ -15,7 +15,7 @@ const notFound =  require('../errors/404');
 
 
 authRouter.post("/signup", async (req,res,next) => {
-    console.log(users);
+   
     try {
       let userRecord = await users.Users.create(req.body);
       const output = {

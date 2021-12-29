@@ -6,6 +6,11 @@ const SECRET = process.env.SECRET || 'secret';
 
 const Users = (sequelize, DataTypes) => {
    const userModel = sequelize.define('users', {
+     email: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+      },
         username: { type: DataTypes.STRING, unique: true, allowNull: false, required: true },
         password: { type: DataTypes.STRING, allowNull: false, required: true },
         role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull:true, defaultValue: 'client' },
@@ -30,9 +35,7 @@ const Users = (sequelize, DataTypes) => {
 
             },
         },
-       
-        //  lastname: { type: DataTypes.STRING, allowNull: true, required: false },
-        //  phone: { type: DataTypes.STRING, allowNull: true, required: false }
+      
 
     });
 
