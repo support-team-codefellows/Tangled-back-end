@@ -5,14 +5,15 @@ const server = express();
 const cors = require("cors");
 const morgan = require("morgan");
 const authRoutes = require("./routes/routes");
+const ticketsRouter=require('../src/routes/ticket.routes')
 const logger = require("../src/middleware/logger");
 const errorHandlers = require("../src/errors/500");
 const notFound = require("../src/errors/404");
 const PORT = process.env.PORT || 3500;
 const uuid = require('uuid').v4;
 
- server.use(cors());
- server.use(cors({ origin: '*' }));
+server.use(cors());
+server.use(cors({ origin: '*' }));
 server.use(morgan("dev"));
 server.use(express.json());
 
@@ -20,6 +21,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 //route
 server.use(authRoutes);
+server.use(ticketsRouter);
 
 //middelware
 // error handlers
@@ -30,6 +32,11 @@ const bodyParser = require('body-parser');
 // server.use(cors());
 // server.use(bodyParser.json());
 // server.use(bodyParser.urlencoded({ extended: true }));
+
+////////////////////////
+
+
+///////////////////////
 
 const { Server } = require("socket.io");
 // server.use(logger);
