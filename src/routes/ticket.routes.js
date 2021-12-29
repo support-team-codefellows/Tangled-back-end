@@ -3,14 +3,16 @@ const ticketsRouter=express.Router();
 const tickets=require('../model/index')
 
 
-ticketsRouter.get('/telephoneTicket', telephoneHandeler)
-ticketsRouter.get('/telephoneTicket/:id', telephoneHandeler)
-ticketsRouter.post('/telephoneTicket', PostTelephoneHandeler)
+ticketsRouter.get('/telephoneTicket', telephoneHandler)
+ticketsRouter.get('/telephoneTicket/:id', telephoneHandler)
+ticketsRouter.post('/telephoneTicket', PostTelephoneHandler)
+ticketsRouter.delete('/telephoneTicket/:id', deleteTelephoneHandler)
+ticketsRouter.put('/telephoneTicket/:id', updateTelephoneHandler)
 // ticketsRouter.get('/onSiteTelephone', FAQSHAndeler)
 
 
 
-async function telephoneHandeler(req,res){
+async function telephoneHandler(req,res){
 
   let id=req.params.id;
   let answer= await tickets.ticketCollection.get(id)
@@ -21,7 +23,7 @@ async function telephoneHandeler(req,res){
 
 
 
-async function PostTelephoneHandeler(req,res){
+async function PostTelephoneHandler(req,res){
 
   
   let body=req.body
@@ -30,7 +32,21 @@ async function PostTelephoneHandeler(req,res){
 
 
 }
+async function deleteTelephoneHandler(req,res) {
+let id=req.params.id
+await tickets.ticketCollection.delete(id)
+    res.status(204).send("the item is deleted")
+}
 
+
+async function updateTelephoneHandler(req,res) {
+    let obj=req.body
+    let id=req.params.id
+
+    let updatedItem= await tickets.ticketCollection.update(id,obj)
+    res.status(201).json(updatedItem)
+    
+}
 
 module.exports = ticketsRouter 
   
