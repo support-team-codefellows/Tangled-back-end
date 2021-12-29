@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
 
     console.log(`>>> socket ${socket.id} connected`);
     socket.on("customerFrontEvent", (service) => {
-        console.log('========', service);
+        console.log('=======', service);
         let obj = {
             time: new Date(),
             service: service,
