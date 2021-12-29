@@ -2,11 +2,13 @@
 
 const express = require('express');
 const authRouter=express.Router();
+
 const  users =require('../model/index');
 const basicAuth = require('../middleware/basic');
 const bearerAuth =  require('../middleware/bearer');
 const permissions = require('../middleware/acl.js')
 const notFound =  require('../errors/404');
+
 
 
 // Routes
@@ -44,9 +46,12 @@ authRouter.get('/', (req,res) => {
 
 // authRouter.get('*',notFound );
 
-module.exports = authRouter
 
 
+
+
+
+module.exports = authRouter 
 
 
 
