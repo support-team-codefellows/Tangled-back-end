@@ -14,7 +14,7 @@ class Collection {
         if (id) {
             return this.model.findOne({ where: { id } })
         } else {
-            this.model.findAll()
+          return  this.model.findAll()
         }
     }
 
