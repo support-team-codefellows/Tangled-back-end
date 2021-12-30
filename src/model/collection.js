@@ -20,8 +20,8 @@ class Collection {
 
     update(id, obj) {
         try {
-            let recordId = await this.model.findOne({where:{id:id}})
-            let updateRecord = await recordId.update(obj);
+            let recordId =  this.model.findOne({where:{id:id}})
+            let updateRecord =  recordId.update(obj);
             return updateRecord;
         } catch(e) {
             console.error('error in updating record for model',this.model.name, `id:${id}`)
