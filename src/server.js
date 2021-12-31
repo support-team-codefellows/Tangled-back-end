@@ -6,7 +6,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const authRoutes = require("./routes/routes");
 const ticketsRouter = require("../src/routes/ticket.routes");
-const onSiteRouter = require("./routes/onSite.routes");
+const onSiteRouter = require("../routes/onSite.routes");
+const resRouter = require("../routes/response.routes.js");
 const logger = require("../src/middleware/logger");
 const errorHandlers = require("../src/errors/500");
 const notFound = require("../src/errors/404");
@@ -18,6 +19,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 //route
 server.use(authRoutes);
+server.use(resRouter);
 server.use(ticketsRouter);
 server.use(onSiteRouter);
 
