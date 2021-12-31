@@ -16,7 +16,7 @@ const Users = (sequelize, DataTypes) => {
         role: { type: DataTypes.ENUM('manager', 'employee', 'client'), allowNull:true, defaultValue: 'client' },
         token: {
             type: DataTypes.VIRTUAL, get() {
-                return jwt.sign({ username: this.username }, SECRET);
+                return jwt.sign({ email: this.email }, SECRET);
             },
             set(tokenObj) {
                 let token = jwt.sign(tokenObj, SECRET);
@@ -29,7 +29,7 @@ const Users = (sequelize, DataTypes) => {
                 const acl = {
                     'manager': ['read', 'write', 'delete', 'update'],
                     'employee': ['read', 'write', 'update'],
-                    'client': ['read']
+                    'client': ['read','write']
                 }
                 return acl[this.role];
 
@@ -44,8 +44,8 @@ const Users = (sequelize, DataTypes) => {
         let hashedPass = await bcrypt.hash(user.password, 10);
         user.password = hashedPass;
       });
-      userModel.BasicAuth = async function (username, password) {
-        const user = await this.findOne({ where: { username } });
+      userModel.BasicAuth = async function (email, password) {
+        const user = await this.findOne({ where: { email } });
         const valid = await bcrypt.compare(password, user.password);
         if (valid) { return user; }
         throw new Error('Invalid User');
@@ -54,7 +54,7 @@ const Users = (sequelize, DataTypes) => {
       userModel.authToken = async function (token) {
         try {
           const parsedToken = jwt.verify(token, SECRET);
-          const user = this.findOne({where: { username: parsedToken.username } });
+          const user = this.findOne({where: { email: parsedToken.email } });
           if (user) { return user; }
           throw new Error("User Not Found");
         } catch (e) {
