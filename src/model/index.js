@@ -33,14 +33,7 @@ const OnsiteTicketCollection = new Collection(OnsiteTicketModel)
 const responseModel = response(sequelize, DataTypes)
 const responseCollection = new Collection(responseModel)
 
-///========================
-ticketModel.hasMany(responseModel, { foreignKey: 'ticketid', sourceKey: 'id' });
-responseModel.belongsTo(ticketModel, { foreignKey: 'ticketid', targetKey: 'id' });
 
-///========================
-
-OnsiteTicketModel.hasMany(responseModel, { foreignKey: 'ticketid', sourceKey: 'id' });
-responseModel.belongsTo(OnsiteTicketModel, { foreignKey: 'ticketid', targetKey: 'id' });
 
 
 module.exports = {
