@@ -14,7 +14,7 @@ responseRouter.post('/response', PostResponseHandler)
 
 
 async function ResponseHandler(req, res) {
-  return await response.responseCollection.findAll()
+  return await response.responseCollection.get()
   // let username = req.params.username;
   // let data= JSON.parse(req.params.response) 
   // let customerName= data.find(item=>item.customerName)
