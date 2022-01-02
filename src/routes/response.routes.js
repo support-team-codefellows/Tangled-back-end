@@ -6,7 +6,7 @@ const response = require('../model/index')
 
 
 responseRouter.get('/response', ResponseHandler)
-responseRouter.get('/response/:username', ResponseHandler)
+responseRouter.get('/response/:customername', ResponseHandler)
 responseRouter.post('/response', PostResponseHandler)
 
 
