@@ -13,8 +13,12 @@ responseRouter.post('/response', PostResponseHandler)
 
 
 
-async function ResponseHandler(req, res) {
-  return await response.responseCollection.get()
+ async function ResponseHandler(req, res) {
+
+  let answer= await response.responseCollection.get()
+  res.status(200).json(answer)
+
+ 
   // let username = req.params.username;
   // let data= JSON.parse(req.params.response) 
   // let customerName= data.find(item=>item.customerName)
