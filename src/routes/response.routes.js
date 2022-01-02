@@ -14,8 +14,8 @@ responseRouter.post('/response', PostResponseHandler)
 
 
  async function ResponseHandler(req, res) {
-  let customerName = req.params.customerName;
-  let answer = await response.responseModel.findAll({ where: {customerName:customerName } })
+  let customername = req.params.customername;
+  let answer = await response.responseModel.findAll({ where: {customername:customername } })
   res.status(200).json(answer);
 
 }
