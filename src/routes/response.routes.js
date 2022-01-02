@@ -14,8 +14,11 @@ responseRouter.post('/response', PostResponseHandler)
 
 
 async function ResponseHandler(req, res) {
+  let username = req.params.username;
+  let data= JSON.parse(req.body.response) 
+  let foundName= data.find(item=>item.customerName)
+  console.log(foundName);
 
-  let username = req.params.username.response.customername;
   console.log(username);
   let answer = await response.responseModel.findOne({ where: { username: username } })
   res.status(200).json(answer);
