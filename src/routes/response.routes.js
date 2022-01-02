@@ -15,7 +15,7 @@ responseRouter.post('/response', PostResponseHandler)
 
 async function ResponseHandler(req, res) {
   let username = req.params.username;
-  let data= JSON.parse(req.body.response) 
+  let data= JSON.parse(req.params.response) 
   let customerName= data.find(item=>item.customerName)
   console.log(foundName);
 
