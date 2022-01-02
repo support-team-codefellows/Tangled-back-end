@@ -2,12 +2,14 @@
 
 const Ticket = (sequelize, DataTypes) =>
   sequelize.define("Ticket", {
-    customerName: { type: DataTypes.STRING, required: true },
-    phoneNumber: { type: DataTypes.STRING, required: true },
-    subject: { type: DataTypes.STRING, required: false },
-    department: { type: DataTypes.STRING, required: true },
-    description: { type: DataTypes.STRING, required: false },
-    status: { type: DataTypes.STRING, required: true },
+    customerName: { type: DataTypes.STRING  },
+    phoneNumber: { type: DataTypes.STRING  },
+    subject: { type: DataTypes.STRING },
+    department: { type: DataTypes.STRING,  },
+    description: { type: DataTypes.STRING },
+    status: { type: DataTypes.STRING  },
+    username: { type: DataTypes.STRING  },
+    response: { type: DataTypes.STRING  },
   });
 
 module.exports = Ticket;
