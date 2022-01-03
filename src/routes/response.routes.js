@@ -6,7 +6,7 @@ const response = require('../model/index')
 
 
 responseRouter.get('/response', ResponseHandler)
-responseRouter.get('/response/:username', ResponseHandler)
+responseRouter.get('/response/:customername', ResponseHandler)
 responseRouter.post('/response', PostResponseHandler)
 
 
@@ -14,19 +14,9 @@ responseRouter.post('/response', PostResponseHandler)
 
 
  async function ResponseHandler(req, res) {
-
-  let answer= await response.responseCollection.get()
-  res.status(200).json(answer)
-
- 
-  // let username = req.params.username;
-  // let data= JSON.parse(req.params.response) 
-  // let customerName= data.find(item=>item.customerName)
-  // console.log(foundName);
-
-  // console.log(username);
-  // let answer = await response.responseModel.findAll({ where: { } })
-  // res.status(200).json(answer);
+  let customername = req.params.customername;
+  let answer = await response.responseModel.findAll({ where: {customername:customername } })
+  res.status(200).json(answer);
 
 }
 
