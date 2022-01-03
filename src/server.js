@@ -11,6 +11,8 @@ const resRouter = require("../src/routes/response.routes.js");
 const logger = require("../src/middleware/logger");
 const errorHandlers = require("../src/errors/500");
 const notFound = require("../src/errors/404");
+const rateRouter = require("./routes/rate.route");
+
 const PORT = process.env.PORT || 3500;
 server.use(cors());
 server.use(cors({ origin: "*" }));
@@ -22,6 +24,7 @@ server.use(authRoutes);
 server.use(resRouter);
 server.use(ticketsRouter);
 server.use(onSiteRouter);
+server.use(rateRouter);
 
 // >>>> configuring socket.io
 const httpServer = require("http").createServer(server);
