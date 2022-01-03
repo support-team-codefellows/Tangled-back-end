@@ -5,7 +5,7 @@ const Collection = require('./collection');
 const Ticket = require('./Ticket.model/Ticket')
 const OnsiteTicket = require('./Ticket.model/onSite.model')
 const response = require('./Ticket.model/respone.model')
-
+const rateModel = require('./rating.model');
 
 const POSTGRES_URL = process.env.NODE_ENV === 'test' ? "sqlite:memory:" : process.env.DATABASE_URL
 
@@ -34,6 +34,8 @@ const responseModel = response(sequelize, DataTypes)
 const responseCollection = new Collection(responseModel)
 
 
+const Rate = rateModel(sequelize, DataTypes);
+const rateCollection = new Collection(Rate);
 
 
 module.exports = {
@@ -49,7 +51,10 @@ module.exports = {
   OnsiteTicket: OnsiteTicketModel,
 
   responseCollection: responseCollection,
-  responseModel: responseModel
+  responseModel: responseModel,
+
+  rateCollection: rateCollection
+
 
 
 }
