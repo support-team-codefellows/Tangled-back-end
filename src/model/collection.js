@@ -22,7 +22,6 @@ class Collection {
         try {
             let updatedItem = this.model.findOne({ where: { id } })
             return updatedItem.update(obj)
-
         } catch (error) {
             console.log(`${error.message}`);
         }

@@ -61,7 +61,6 @@ const Users = (sequelize, DataTypes) => {
   };
 
   return userModel;
-
 }
 
 

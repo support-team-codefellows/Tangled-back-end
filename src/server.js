@@ -10,7 +10,7 @@ const errorHandlers = require("../src/errors/500");
 const notFound = require("../src/errors/404");
 const PORT = process.env.PORT || 3500;
 const uuid = require('uuid').v4;
-
+const rateRouter = require('./routes/rate.route');
 
 
 // server.use(cors());
@@ -23,7 +23,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 //route
 server.use(authRoutes);
-
+server.use(rateRouter);
 //middelware
 // error handlers
 
@@ -132,25 +132,25 @@ io.on("connection", (socket) => {
 
     socket.on('claimCase', (payload) => {
         payload.obj.service.status = 'processing'
-        socket.emit('processingStatus',payload);
+        socket.emit('processingStatus', payload);
     });
-//chat
+    //chat
     socket.on('joinRoom', (payload) => {
         console.log(payload);
-      socket.join(payload)
-      console.log('A NEW USER HAS JOINED',payload);
+        socket.join(payload)
+        console.log('A NEW USER HAS JOINED', payload);
     }
     );
-    
+
 
     socket.on("sendMessage", (payload) => {
-        socket.broadcast.to(payload.room).emit("receiveMessage", payload);   
-      });
-   
-socket.on('disconnect', () => {
-    console.log('>>> socket disconnected');
+        socket.broadcast.to(payload.room).emit("receiveMessage", payload);
+    });
 
-});
+    socket.on('disconnect', () => {
+        console.log('>>> socket disconnected');
+
+    });
 });
 
 
