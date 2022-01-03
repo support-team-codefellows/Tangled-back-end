@@ -11,8 +11,9 @@ module.exports = async (req, res, next) => {
 
   Users.BasicAuth(username, password).then(validUser => {
     req.user = validUser;
+    
     next();
-  }).catch(err => { next('Invalid 1Login') })
+  }).catch(err => { res.status(401).send(err) })
 
 }
 
